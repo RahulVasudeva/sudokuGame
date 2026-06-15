@@ -9,11 +9,22 @@ public class Parser    {
         if (inInput.equals("start")){
 
             while(true) {
+                //ToDO: add checks for errors
                 sg.printGrid();
                 String input = IO.readln("rules to play");
-                JsonObject inputJson = Json .createObjectBuilder().build();
+                JsonObject inputJson = Json.createObjectBuilder().build();
                 inputJson = jsonCreater(input);
-                System.out.printf("%s",inputJson.getString("instruction"));
+                IO.println(inputJson.getJsonString("instruction"));
+                if(inputJson.getString("instruction").equals("p")){
+                    //sends the x,y index and the value to the checker function
+                    //to see that the value inputted by the user is correct or not
+                    String status = sg.checker(inputJson.getInt("x-axis"),
+                                                inputJson.getInt("y-axis"),
+                                                inputJson.getInt("value"));
+
+                    IO.println(status);
+                }
+
                 break;
 
             }

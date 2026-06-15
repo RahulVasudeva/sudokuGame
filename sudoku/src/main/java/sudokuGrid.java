@@ -38,12 +38,14 @@ public class sudokuGrid {
     }
 
     public void printGrid(){
-        System.out.println("  0    1     2     3    4    5     6    7    8");
-        System.out.println("=================================================");
+        System.out.println("    0    1     2     3    4    5     6    7    8");
+        System.out.println("  =================================================");
 
         for (int i =0;i<9;i++) {
+            System.out.print(i+" ");
             for (int j = 0; j < 9; j++) {
                 if (j==3 || j==6){
+                    //-1 is the value in the matrix for empty spots
                     if (matrix[i][j] == -1) {
                         System.out.print("||    ");
                     } else {
@@ -60,11 +62,11 @@ public class sudokuGrid {
             }
 
             if(i==2 || i==5 || i==8){
-                System.out.println("|| "+i+"\n=================================================");
+                System.out.println("|| "+"\n  =================================================");
             }
 
             else {
-                System.out.println("|| "+i+"\n-------------------------------------------------");
+                System.out.println("|| "+"\n  -------------------------------------------------");
             }
         }
     }
