@@ -12,6 +12,12 @@ public class Parser    {
                 //ToDO: add checks for errors
                 sg.printGrid();
                 String input = IO.readln("rules to play");
+
+                if(input.equals("q")) {
+                    IO.println("Thank you for playing");
+                    break;
+                }
+
                 JsonObject inputJson = Json.createObjectBuilder().build();
                 inputJson = jsonCreater(input);
                 IO.println(inputJson.getJsonString("instruction"));
@@ -22,13 +28,22 @@ public class Parser    {
                                                 inputJson.getInt("y-axis"),
                                                 inputJson.getInt("value"));
 
-                    IO.println(status);
+                    switch (status) {
+                        case "columnErr" -> IO.println("\n\u001B[31m The column cannot have repeated values \u001B[0m");
+
+                        case "rowErr" -> IO.println("\n\u001B[31mThe row cannot have repeated values\u001B[0m");
+
+                        case "valid" -> {
+                            sg.setMatrix(inputJson.getInt("x-axis"),
+                                    inputJson.getInt("y-axis"),
+                                    inputJson.getInt("value"));
+                            sg.printGrid();
+                        }
+                    }
                 }
 
-                break;
 
             }
-            //return;
         }
         else if(inInput.equals("exit")){
             IO.println("Thank you for playing!");
