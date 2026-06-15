@@ -1,7 +1,7 @@
-// deals with printing the soduku grid with the values
-public class SodukuGrid {
+// deals with printing the sudoku grid with the values
+public class sudokuGrid {
     private int[][] matrix=new int[9][9];
-    SodukuGrid() {
+    sudokuGrid() {
         for(int i=0;i<9;i++){
 
             for(int j=0;j<9;j++){
