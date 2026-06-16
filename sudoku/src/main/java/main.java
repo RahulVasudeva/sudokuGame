@@ -6,9 +6,11 @@ public class main {
                 Welcome to Sudoku!
                 Enter start to play a game and exit to close the game.
                 """);
+        if (initialcmd.equals("start")) {
+            Parser parse = new Parser();
+            parse.inputHandler();
+        }
 
-        Parser parse = new Parser();
-        parse.inputHandler(initialcmd);
 
 
     }
