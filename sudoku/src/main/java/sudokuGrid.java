@@ -49,7 +49,7 @@ public class sudokuGrid {
             for(int j=0;j<9;j++){
                 var valuesToTest = new ArrayList<Integer>();
                 valuesToTest.addAll(Arrays.asList(1,2,3,4,5,6,7,8,9));
-                for(int k=0;k<9a;k++) {
+                for(int k=0;k<9;k++) {
                     int index = rand.nextInt(0,valuesToTest.size());
 
                     if (checker(i, j, valuesToTest.get(index)).equals("valid")) {
