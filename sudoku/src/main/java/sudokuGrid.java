@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
 // deals with printing the sudoku grid with the values
 public class sudokuGrid {
     private int[][] matrix=new int[9][9];
@@ -7,8 +11,8 @@ public class sudokuGrid {
             for(int j=0;j<9;j++){
                 matrix[i][j]= -1;
             }
-            matrix[3][3]=7;
-            matrix[0][0]=6;
+
+            fillMatrix();
 
         }
     }
@@ -36,6 +40,31 @@ public class sudokuGrid {
         return "valid";
 
     }
+
+    //fills the matrix with random numbers from 0-9 while following all of sudoku rules
+    //This is used to create a puzzle for the user to solve
+    private void fillMatrix() {
+        var rand = new Random();
+        for(int i =0;i<9;i++){
+            for(int j=0;j<9;j++){
+                var valuesToTest = new ArrayList<Integer>();
+                valuesToTest.addAll(Arrays.asList(1,2,3,4,5,6,7,8,9));
+                for(int k=0;k<9a;k++) {
+                    int index = rand.nextInt(0,valuesToTest.size());
+
+                    if (checker(i, j, valuesToTest.get(index)).equals("valid")) {
+                        matrix[i][j] = valuesToTest.get(index);
+                        break;
+                    }
+                    else {
+                        valuesToTest.remove(index);
+                    }
+
+                }
+            }
+        }
+    }
+
 
     public void printGrid(){
         System.out.println("\n    0    1     2     3    4    5     6    7    8");
