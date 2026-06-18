@@ -37,12 +37,56 @@ public class sudokuGrid {
                 return "columnErr";
             }
         }
+
+
         return "valid";
 
     }
 
+    private int[][] subMatrixChooser(int i, int j) {
+        int[][] subMatrix = new int[3][3];
+        if(i==0||i==1||i==2){
+            if(j==0 || j==1 || j==2){
+                
+            }
+            else if(j==3 || j==4 || j==5){
+
+            }
+            else if(j==6 || j==7 || j==8){
+
+            }
+        }
+
+        else if(i==3||i==4||i==5){
+            if(j==0 || j==1 || j==2){
+
+            }
+            else if(j==3 || j==4 || j==5){
+
+            }
+            else if(j==6 || j==7 || j==8){
+
+            }
+        }
+
+        else if(i==6||i==7||i==8){
+            if(j==0 || j==1 || j==2){
+
+            }
+            else if(j==3 || j==4 || j==5){
+
+            }
+            else if(j==6 || j==7 || j==8){
+
+            }
+        }
+    }
+
+
+
     //fills the matrix with random numbers from 0-9 while following all of sudoku rules
     //This is used to create a puzzle for the user to solve
+    //Todo: add the third rule so that the printing is correct
     private void fillMatrix() {
         var rand = new Random();
         for(int i =0;i<9;i++){
