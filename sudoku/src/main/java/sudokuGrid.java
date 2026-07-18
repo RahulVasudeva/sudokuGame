@@ -5,13 +5,12 @@ import java.util.Random;
 // deals with printing the sudoku grid with the values
 public class sudokuGrid {
     private int[][] matrix=new int[9][9];
+    private int[][] matrixClone=new int[9][9];
     sudokuGrid() {
-        for(int i=0;i<9;i++) {
-            for (int j = 0; j < 9; j++) {
-                matrix[i][j] = -1;
-            }
-        }
+        fillMatrixDefault();
         fillMatrix();
+        copyMatrix(matrix,matrixClone);
+        validSodukuCreator();
     }
 
     public void setMatrix(int i,int j,int value) {
@@ -22,6 +21,13 @@ public class sudokuGrid {
         return matrix;
     }
 
+    private void fillMatrixDefault() {
+        for(int a=0;a<9;a++){
+            for(int b=0;b<9;b++){
+                matrix[a][b]= -1;
+            }
+        }
+    }
 
     public String checker(int i,int j, int value) {
         //toDO: complete the third rule
@@ -131,11 +137,7 @@ public class sudokuGrid {
 
                     }
                     if (matrix[i][j] == -1) {
-                        for(int a=0;a<9;a++){
-                            for(int b=0;b<9;b++){
-                                matrix[a][b]= -1;
-                            }
-                        }
+                        fillMatrixDefault();
                         fillMatrix();
                     }
                 }
@@ -178,6 +180,50 @@ public class sudokuGrid {
             else {
                 System.out.println("|| "+"\n  -------------------------------------------------");
             }
+        }
+    }
+
+    private void removeElem () {
+        int[][] tempMatrix=new int[9][9];
+        int[][] tempMatrix2=new int[9][9];
+        copyMatrix(matrix,tempMatrix);
+        copyMatrix(matrix,tempMatrix2);
+        var rand=new Random();
+        while(Arrays.deepEquals(matrix,tempMatrix)){
+            copyMatrix(tempMatrix2,matrix);
+            int i= rand.nextInt(0,9);
+            int j=rand.nextInt(0,9);
+            matrix[i][j]=-1;
+            copyMatrix(matrix,tempMatrix2);
+            fillMatrix();
+        }
+        copyMatrix(tempMatrix2,matrix);
+    }
+
+    private void copyMatrix(int[][] matrix1,int[][] matrix2){
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                matrix2[i][j]=matrix1[i][j];
+            }
+        }
+    }
+
+    private void validSodukuCreator(){
+        removeElem();
+        int count=0;
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(matrix[i][j]==-1){
+                    count++;
+                }
+            }
+        }
+        if (count>25){
+            return;
+        }
+        else {
+            copyMatrix(matrixClone,matrix);
+            validSodukuCreator();
         }
     }
 }
