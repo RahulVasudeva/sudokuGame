@@ -5,12 +5,12 @@ import java.util.Random;
 // deals with printing the sudoku grid with the values
 public class sudokuGrid {
     private int[][] matrix=new int[9][9];
-    private int[][] matrixClone=new int[9][9];
+    //private int[][] matrixClone=new int[9][9];
     sudokuGrid() {
         fillMatrixDefault();
         fillMatrix();
-        copyMatrix(matrix,matrixClone);
-        validSodukuCreator();
+        //copyMatrix(matrix,matrixClone);
+        removeElem();
     }
 
     public void setMatrix(int i,int j,int value) {
@@ -186,16 +186,34 @@ public class sudokuGrid {
     private void removeElem () {
         int[][] tempMatrix=new int[9][9];
         int[][] tempMatrix2=new int[9][9];
+        int[][] tempMatrix3=new int[9][9];
         copyMatrix(matrix,tempMatrix);
         copyMatrix(matrix,tempMatrix2);
         var rand=new Random();
-        while(Arrays.deepEquals(matrix,tempMatrix)){
-            copyMatrix(tempMatrix2,matrix);
+
+        int count=0;
+
+        while(count<40){
+            count=0;
+            for(int i=0;i<9;i++){
+                for(int j=0;j<9;j++){
+                    if(tempMatrix2[i][j]==-1){
+                        count++;
+                    }}}
+            if(Arrays.deepEquals(matrix,tempMatrix))
+            {
+            copyMatrix(tempMatrix2,tempMatrix3);
             int i= rand.nextInt(0,9);
             int j=rand.nextInt(0,9);
-            matrix[i][j]=-1;
-            copyMatrix(matrix,tempMatrix2);
+            tempMatrix2[i][j]=-1;
+            copyMatrix(tempMatrix2,matrix);
             fillMatrix();
+            }
+            else {
+                copyMatrix(tempMatrix3,tempMatrix2);
+                copyMatrix(tempMatrix2,matrix);
+                fillMatrix();
+            }
         }
         copyMatrix(tempMatrix2,matrix);
     }
@@ -208,22 +226,5 @@ public class sudokuGrid {
         }
     }
 
-    private void validSodukuCreator(){
-        removeElem();
-        int count=0;
-        for(int i=0;i<9;i++){
-            for(int j=0;j<9;j++){
-                if(matrix[i][j]==-1){
-                    count++;
-                }
-            }
-        }
-        if (count>25){
-            return;
-        }
-        else {
-            copyMatrix(matrixClone,matrix);
-            validSodukuCreator();
-        }
-    }
+
 }
