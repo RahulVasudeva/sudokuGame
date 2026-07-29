@@ -21,7 +21,7 @@ public class Parser    {
             while(true) {
                 //ToDO: add checks for errors
                 sg.printGrid();
-                String input = IO.readln("rules to play ");
+                String input = IO.readln("=> ");
                 String[] parts = input.split("\s+");
                 if(input.equals("q")) {
                     IO.println("Thank you for playing");
@@ -76,6 +76,10 @@ public class Parser    {
                 }
                 case "filledErr" -> {
                     IO.println("\n\u001B[31mInvalid Index, Cannot fill in clues\u001B[0m");
+                    wait(1);
+                }
+                case "gridErr" -> {
+                    IO.println("\n\u001B[31mThe 3x3 grid cannot have repeated values\u001B[0m");
                     wait(1);
                 }
 

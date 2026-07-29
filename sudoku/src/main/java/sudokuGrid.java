@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 //TOdo: add a more efficient way to fill the numbers and to remove them
 
-// deals with printing the sudoku grid with the values
+// deals with creating the sudoku puzzle and printing it
 public class sudokuGrid {
     private int[][] matrix=new int[9][9];
     private int[][] matrixClone=new int[9][9];
@@ -21,9 +21,7 @@ public class sudokuGrid {
         matrix[i][j]=value;
     }
 
-    public int[][] getMatrix(){
-        return matrix;
-    }
+    //public int[][] getMatrix(){return matrix;}
 
     private void fillMatrixDefault() {
         for(int a=0;a<9;a++){
@@ -56,7 +54,6 @@ public class sudokuGrid {
     }
 
     public String checker(int i,int j, int value) {
-        //toDO: complete the third rule
         //toDO: add multithreading for the linear search
 
         for (int k=0;k<9;k++){
@@ -66,81 +63,86 @@ public class sudokuGrid {
             else if (matrix[k][j]==value){
                 return "columnErr";
             }
-
         }
-        int[][] subMatrix = new int[3][3];
-        subMatrix=subMatrixChooser(i,j);
-        for (int k=0;k<3;k++){
-            for(int l=0;l<3;l++){
-                if(subMatrix[k][l]==value){
-                    return "gridErr";
-                }
-            }
+        //gives value 0-8 for each submatrix
+        int subMatrixIndex = (i/3)*3+j/3;
+        if (subMatrixCheck(subMatrixIndex,value)){
+            return "gridErr";
         }
         return "valid";
 
     }
 
-    private int[][] subMatrixChooser(int i, int j) {
-        int[][] subMatrix = new int[3][3];
+    //Checks the 3x3 rule for the sudoku
+    private boolean subMatrixCheck(int index,int value){
+        switch (index){
+            case 0 -> {
+                for(int i =0;i<3;i++){
+                    for (int j=0;j<3;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
+            case 1 -> {
+                for(int i =0;i<3;i++){
+                    for (int j=3;j<6;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
+            case 2 -> {
+                for(int i =0;i<3;i++){
+                    for (int j=6;j<9;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
+            case 3 -> {
+                for(int i =3;i<6;i++){
+                    for (int j=0;j<3;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
+            case 4 -> {
+                for(int i =3;i<6;i++){
+                    for (int j=3;j<6;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
+            case 5 -> {
+                for(int i =3;i<6;i++){
+                    for (int j=6;j<9;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
+            case 6 -> {
+                for(int i =6;i<9;i++){
+                    for (int j=0;j<3;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
+            case 7 -> {
+                for(int i =6;i<9;i++){
+                    for (int j=3;j<6;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
+            case 8 -> {
+                for(int i =6;i<9;i++){
+                    for (int j=6;j<9;j++){
+                        if(matrix[i][j]==value) return true;
+                    }
+                }
+            }
 
-        if(i==0||i==1||i==2){
-            if(j==0 || j==1 || j==2){
-               return subMatrix=subMatrixCreator(0,0);
-            }
-            else if(j==3 || j==4 || j==5){
-                return subMatrix=subMatrixCreator(0,3);
-            }
-            else if(j==6 || j==7 || j==8){
-                return subMatrix=subMatrixCreator(0,6);
-
-            }
         }
-
-        else if(i==3||i==4||i==5){
-            if(j==0 || j==1 || j==2){
-                return subMatrix=subMatrixCreator(3,0);
-
-            }
-            else if(j==3 || j==4 || j==5){
-                return subMatrix=subMatrixCreator(3,3);
-
-            }
-            else if(j==6 || j==7 || j==8){
-                return subMatrix=subMatrixCreator(3,6);
-
-            }
-        }
-
-        else if(i==6||i==7||i==8){
-            if(j==0 || j==1 || j==2){
-                return subMatrix=subMatrixCreator(6,0);
-            }
-            else if(j==3 || j==4 || j==5){
-                return subMatrix=subMatrixCreator(6,3);
-
-            }
-            else if(j==6 || j==7 || j==8){
-                return subMatrix=subMatrixCreator(6,6);
-
-            }
-        }
-        return subMatrix;
+        return false;
     }
-
-    private int[][] subMatrixCreator(int i,int j){
-        int[][] subMatrix = new int[3][3];
-        for(int k=0;k<3;k++){
-            for(int l=0;l<3;l++){
-                subMatrix[k][l]=matrix[i][j];
-                j++;
-            }
-            i++;
-            j=j-3;
-        }
-        return subMatrix;
-    }
-
 
     //fills the matrix with random numbers from 0-9 while following all of sudoku rules
     //This is used to create a puzzle for the user to solve
@@ -270,7 +272,7 @@ public class sudokuGrid {
             }
         }
         copyMatrix(tempMatrix2,matrix);
-        //IO.println(temp);
+        IO.println(temp);
         if (temp>35){
             fillMatrixDefault();
             fillMatrix();
