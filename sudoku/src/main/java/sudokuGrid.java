@@ -228,7 +228,7 @@ public class sudokuGrid {
     private void removeElem () {
         int[][] tempMatrix=new int[9][9];
         int[][] tempMatrix2=new int[9][9];
-        int[][] tempMatrix3=new int[9][9];
+        //int[][] tempMatrix3=new int[9][9];
         int count=0;
         copyMatrix(matrix,tempMatrix);
         copyMatrix(matrix,tempMatrix2);
