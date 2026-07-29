@@ -7,6 +7,7 @@ public class main {
                 Enter start to play a game and exit to close the game.
                 """);
         if (initialcmd.equals("start")) {
+            IO.println("Creating the puzzle...");
             Parser parse = new Parser();
             parse.inputHandler();
         }

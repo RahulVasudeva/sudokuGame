@@ -43,7 +43,7 @@ public class Parser    {
     }catch(RuntimeException e) {
         IO.println("""
                 \n\u001B[31mPlease check the syntax for your command.
-                Type help for the command list with examples\u001B[0m""");
+                Type help for the command list with examples\u001B[0m"""+e.getMessage());
         wait(1);
         inputHandler();
         }
@@ -58,6 +58,11 @@ public class Parser    {
             //sends the x,y index and the value to the checker function
             //to see that the value inputted by the user is correct or not
             String status = sg.checker(iIndex1,jIndex1,value1);
+            if(sg.indexValidityChecker(iIndex1,jIndex1)==false){
+                IO.println("\n\u001B[31m Invalid Index, cannot fill at clues \u001B[0m");
+                wait(1);
+                return;
+            }
 
             switch (status) {
                 case "columnErr" -> {
@@ -67,6 +72,10 @@ public class Parser    {
 
                 case "rowErr" -> {
                     IO.println("\n\u001B[31mThe row cannot have repeated values\u001B[0m");
+                    wait(1);
+                }
+                case "filledErr" -> {
+                    IO.println("\n\u001B[31mInvalid Index, Cannot fill in clues\u001B[0m");
                     wait(1);
                 }
 
