@@ -9,6 +9,7 @@ import java.util.Random;
 public class sudokuGrid {
     private int[][] matrix=new int[9][9];
     private int[][] matrixClone=new int[9][9];
+    private int[][] filledMatrix=new int[9][9];
     private ArrayList<String> cluesIndexArr=new ArrayList<String>();
     sudokuGrid() {
         fillMatrixDefault();
@@ -17,11 +18,8 @@ public class sudokuGrid {
         cluesIndexFinder();
     }
 
-    public void setMatrix(int i,int j,int value) {
-        matrix[i][j]=value;
-    }
-
-    //public int[][] getMatrix(){return matrix;}
+    public void setMatrix(int i,int j,int value) {matrix[i][j]=value;}
+    public int[][] getMatrix(){return matrix;}
 
     private void fillMatrixDefault() {
         for(int a=0;a<9;a++){
@@ -40,6 +38,28 @@ public class sudokuGrid {
                 }
             }
         }
+    }
+
+    public void finishGame(){
+        if(Arrays.deepEquals(matrix,filledMatrix)){
+            IO.println("\u001B[32m Congratulations on completing the puzzle!! \u001B[0m");
+        }
+        else {
+            String status = IO.readln("It looks like you still need to complete the puzzle.\n Do you wish to see the result? (y/n)");
+            String statusL=status.toLowerCase();
+            if(statusL.equals("y")){
+                printGrid(filledMatrix);
+                return;
+            }
+            else if(statusL.equals("n")) {
+                return;
+            }
+            else {
+                IO.println("Please use the correct format: y or n");
+                finishGame();
+            }
+        }
+
     }
 
     //checks if the index given by the user is not already filled with clues provided by the software
@@ -146,7 +166,6 @@ public class sudokuGrid {
 
     //fills the matrix with random numbers from 0-9 while following all of sudoku rules
     //This is used to create a puzzle for the user to solve
-    //Todo: add the third rule so that the printing is correct
     private void fillMatrix() {
         try {
             for (int i = 0; i < 9; i++) {
@@ -178,7 +197,7 @@ public class sudokuGrid {
     }
 
 
-    public void printGrid(){
+    public void printGrid(int[][] matrix1){
         //clears the terminal
         System.out.print("\033[H\033[2J");
 
@@ -190,25 +209,25 @@ public class sudokuGrid {
             for (int j = 0; j < 9; j++) {
                 if (j==3 || j==6){
                     //-1 is the value in the matrix for empty spots
-                    if (matrix[i][j] == -1) {
+                    if (matrix1[i][j] == -1) {
                         System.out.print("!!    ");
                     } else {
                         if (cluesIndexArr.contains(Integer.toString(i)+Integer.toString(j))){
                             System.out.printf("!! \u001B[31m%d\u001B[0m  ", matrix[i][j]);
                         }
                         else {
-                            System.out.printf("!! %d  ", matrix[i][j]);
+                            System.out.printf("!! %d  ", matrix1[i][j]);
                         }                    }
                 }
                 else {
-                    if (matrix[i][j] == -1) {
+                    if (matrix1[i][j] == -1) {
                         System.out.print("|    ");
                     } else {
                         if (cluesIndexArr.contains(Integer.toString(i)+Integer.toString(j))){
-                            System.out.printf("| \u001B[31m%d\u001B[0m  ", matrix[i][j]);
+                            System.out.printf("| \u001B[31m%d\u001B[0m  ", matrix1[i][j]);
                         }
                         else {
-                            System.out.printf("| %d  ", matrix[i][j]);
+                            System.out.printf("| %d  ", matrix1[i][j]);
                         }
                     }
                 }
@@ -238,6 +257,7 @@ public class sudokuGrid {
         Collections.shuffle(indexList);
         int previousValue=0;
         copyMatrix(matrix,matrixClone);
+        copyMatrix(matrix,filledMatrix);
         while(!(indexList.isEmpty())){
             int i= Integer.parseInt(indexList.get(0).substring(0,1));
             int j= Integer.parseInt(indexList.get(0).substring(1));

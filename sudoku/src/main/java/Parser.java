@@ -16,11 +16,31 @@ public class Parser    {
         }
     }
 
-    public void inputHandler() {
+    public void startingMsg() {
+        String initialcmd = IO.readln("""
+                Welcome to Sudoku!
+                Enter start to play a game!
+                
+                Controls:
+                Write "p [x-index] [y-index] [value] to insert a number"
+                (eg: p 0 0 4 will insert 4 at index 0 0)
+                
+                Write "d [x-index] [y-index] to delete an inserted number"
+                (eg d 0 0 will delete the value at index 0 0)
+                
+                Enter "q" to quit the ongoing session
+                """);
+        if (initialcmd.equals("start")) {
+            IO.println("Creating the puzzle...");
+            inputHandler();
+        }
+    }
+    private void inputHandler() {
         try {
+
             while(true) {
                 //ToDO: add checks for errors
-                sg.printGrid();
+                sg.printGrid(sg.getMatrix());
                 String input = IO.readln("=> ");
                 String[] parts = input.split("\s+");
                 if(input.equals("q")) {
@@ -38,12 +58,17 @@ public class Parser    {
                     jIndex=Integer.parseInt(parts[2]);
                     deleteVal(iIndex,jIndex);
                 }
+                else if(input.equals("Submit")){
+                    sg.finishGame();
+                    IO.println("\u001B[32m Thank you for playing! \u001B[0m");
+                    break;
+
+                }
                 else throw new RuntimeException();
             }
     }catch(RuntimeException e) {
         IO.println("""
-                \n\u001B[31mPlease check the syntax for your command.
-                Type help for the command list with examples\u001B[0m"""+e.getMessage());
+                \n\u001B[31mPlease check the syntax for your command.\u001B[0m""");
         wait(1);
         inputHandler();
         }
@@ -85,7 +110,7 @@ public class Parser    {
 
                 case "valid" -> {
                     sg.setMatrix(iIndex1, jIndex1, value1);
-                    sg.printGrid();
+                    sg.printGrid(sg.getMatrix());
                 }
             }
 
