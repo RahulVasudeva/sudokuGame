@@ -149,20 +149,19 @@ public class sudokuGrid {
     //Todo: add the third rule so that the printing is correct
     private void fillMatrix() {
         try {
-            var rand = new Random();
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if(matrix[i][j]==-1) {
                     var valuesToTest = new ArrayList<Integer>();
                     valuesToTest.addAll(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-                    for (int k = 0; k < 9; k++) {
-                        int index = rand.nextInt(0, valuesToTest.size());
+                    Collections.shuffle(valuesToTest);
 
-                        if (checker(i, j, valuesToTest.get(index)).equals("valid")) {
-                            matrix[i][j] = valuesToTest.get(index);
+                    for (int k = 0; k < 9; k++) {
+                        if (checker(i, j, valuesToTest.getFirst()).equals("valid")) {
+                            matrix[i][j] = valuesToTest.getFirst();
                             break;
                         } else {
-                            valuesToTest.remove(index);
+                            valuesToTest.removeFirst();
                         }
                     }
                     }
@@ -280,6 +279,12 @@ public class sudokuGrid {
         }
 
     }
+
+//    private boolean solver(int indexI, int Index j,int value){
+//        var values = new ArrayList<Integer>();
+//        for (int i=1;i<10;i++) values.add(i);
+//
+//    }
 
     private void copyMatrix(int[][] matrix1,int[][] matrix2){
         for(int i=0;i<9;i++){
