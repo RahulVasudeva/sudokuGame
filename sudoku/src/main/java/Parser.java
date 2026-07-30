@@ -22,11 +22,14 @@ public class Parser    {
                 Enter start to play a game!
                 
                 Controls:
-                Write "p [x-index] [y-index] [value] to insert a number"
+                Enter "p [x-index] [y-index] [value] to insert a number"
                 (eg: p 0 0 4 will insert 4 at index 0 0)
                 
-                Write "d [x-index] [y-index] to delete an inserted number"
+                Enter "d [x-index] [y-index] to delete an inserted number"
                 (eg d 0 0 will delete the value at index 0 0)
+                
+                Enter "submit" to finish the game and submit your answer 
+                (lets you see the solution)
                 
                 Enter "q" to quit the ongoing session
                 """);
@@ -58,7 +61,7 @@ public class Parser    {
                     jIndex=Integer.parseInt(parts[2]);
                     deleteVal(iIndex,jIndex);
                 }
-                else if(input.equals("Submit")){
+                else if(input.equals("submit")){
                     sg.finishGame();
                     IO.println("\u001B[32m Thank you for playing! \u001B[0m");
                     break;
