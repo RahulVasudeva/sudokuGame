@@ -225,14 +225,7 @@ public class sudokuGrid {
     }
 
     private void removeElem () {
-        int[][] tempMatrix=new int[9][9];
-        int[][] tempMatrix2=new int[9][9];
-        //int[][] tempMatrix3=new int[9][9];
         int count=0;
-        copyMatrix(matrix,tempMatrix);
-        copyMatrix(matrix,tempMatrix2);
-        copyMatrix(tempMatrix,matrixClone);
-        var rand=new Random();
         var indexList= new ArrayList<String>();
 
         for(int i=0;i<89;i++){
@@ -243,48 +236,58 @@ public class sudokuGrid {
         }
         //shuffles the list
         Collections.shuffle(indexList);
-        int temp=0;
-        int previousI=0;
-        int previousJ=0;
         int previousValue=0;
+        copyMatrix(matrix,matrixClone);
         while(!(indexList.isEmpty())){
             int i= Integer.parseInt(indexList.get(0).substring(0,1));
             int j= Integer.parseInt(indexList.get(0).substring(1));
-            if(Arrays.deepEquals(matrix,tempMatrix))
-            {
-            previousI=i;
-            previousJ=j;
-            previousValue=tempMatrix2[i][j];
+            previousValue=matrix[i][j];
             indexList.removeFirst();
-            tempMatrix2[i][j]=-1;
-            copyMatrix(tempMatrix2,matrix);
-            fillMatrix();
-
-            }
-            else {
-               temp++;
-
-                //copyMatrix(tempMatrix3,tempMatrix2);
-                tempMatrix2[previousI][previousJ]=previousValue;
-                copyMatrix(tempMatrix,matrix);
-                //indexList.removeFirst();
+            matrix[i][j]=-1;
+            copyMatrix(matrix,matrixClone);
+            if(solver(i,j,previousValue,matrixClone)==false){
+                count++;
+                matrix[i][j] = previousValue;
             }
         }
-        copyMatrix(tempMatrix2,matrix);
-        IO.println(temp);
-        if (temp>35){
+        if(count>35){
+            //IO.println(count);
             fillMatrixDefault();
             fillMatrix();
             removeElem();
         }
 
+
     }
 
-//    private boolean solver(int indexI, int Index j,int value){
-//        var values = new ArrayList<Integer>();
-//        for (int i=1;i<10;i++) values.add(i);
-//
-//    }
+    private boolean solver(int indexI, int indexJ,int value,int[][] matrix1){
+
+        for(int i=0;i<9;i++){
+            for (int j=0;j<9;j++){
+                if(matrix1[i][j]==-1){
+                    var values = new ArrayList<Integer>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+                    if(i==indexI && j==indexJ) {
+                        values.remove(values.indexOf(value));
+                    }
+                    int size = values.size();
+                    for(int k=0;k<size;k++){
+                        if(checker(i,j,values.getFirst()).equals("valid")){
+                            matrix1[i][j]=values.getFirst();
+                            break;
+                        }
+                        else {
+                            values.removeFirst();
+                        }
+                    }
+
+                }
+            }
+        }
+
+        if(matrix1[indexI][indexJ]==-1) return true;
+        return false;
+
+    }
 
     private void copyMatrix(int[][] matrix1,int[][] matrix2){
         for(int i=0;i<9;i++){
