@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-//TOdo: add a more efficient way to fill the numbers and to remove them
 
 // deals with creating the sudoku puzzle and printing it
 public class sudokuGrid {
@@ -193,7 +192,6 @@ public class sudokuGrid {
             }
         }catch (StackOverflowError e) {
             IO.println("Fatal crash, Restart the program");
-            //fillMatrix();
         }
     }
 
