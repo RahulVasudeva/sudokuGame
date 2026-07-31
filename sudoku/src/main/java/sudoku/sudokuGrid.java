@@ -1,8 +1,9 @@
+package sudoku;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Random;
 //TOdo: add a more efficient way to fill the numbers and to remove them
 
 // deals with creating the sudoku puzzle and printing it

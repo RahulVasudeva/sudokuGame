@@ -1,4 +1,4 @@
-
+package sudoku;
 
 public class Parser    {
     private sudokuGrid sg = new sudokuGrid();
